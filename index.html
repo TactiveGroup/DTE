@@ -1,0 +1,962 @@
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+
+  <title>Duties & Taxes Estimator (USD, DDP, HS by Material)</title>
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <style>
+
+    :root{--bg:#0f172a;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#22c55e;--blue:#2563eb;--warn:#f59e0b;}
+
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b1020,#0f172a);color:#e5e7eb;margin:0}
+
+    header{padding:24px 20px;text-align:center}
+
+    h1{font-size:1.4rem;margin:0 0 6px}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px 40px}
+
+    .card{background:rgba(17,24,39,0.85);border:1px solid #1f2937;border-radius:12px;padding:18px 16px;margin:12px 0}
+
+    label{display:block;font-weight:600;margin:10px 0 6px}
+
+    input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #374151;background:#0b1324;color:#e5e7eb}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+    .btn{background:var(--accent);border:none;color:#052;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    .btn.secondary{background:var(--blue);color:#fff}
+
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+
+    th,td{border-bottom:1px solid #1f2937;padding:8px;text-align:left;vertical-align:top}
+
+    .small{font-size:0.85rem}
+
+    footer{padding:18px;text-align:center;color:var(--muted)}
+
+    .itemCard{background:#0b1324;border:1px dashed #334155;border-radius:10px;padding:10px;margin-bottom:10px}
+
+    .code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+
+    .warn{color:var(--warn);font-weight:600}
+
+    /* Helper: hide elements only when printing */
+
+    .print-hide { display: block; }
+
+    @media print{
+
+      header,#resultNote,.row .btn.secondary{display:none}
+
+      body{background:#fff;color:#000}
+
+      .card{border:none;background:#fff}
+
+      table th,table td{border-color:#ddd}
+
+      .wrap{padding:0 8px}
+
+      .small{color:#222}
+
+      /* New: hide KYC banner and rules block in print */
+
+      #kycWarn, #rulesBlock { display: none !important; }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1>Duties & Taxes Estimator (Shipping from the US)</h1>
+
+    <div class="small">Inputs & outputs in <strong>USD</strong>. Incoterm assumed <strong>DDP</strong>. Up to <strong>5 items</strong> per shipment.</div>
+
+  </header>
+
+
+
+  <div class="wrap">
+
+    <!-- Destination -->
+
+    <div class="card">
+
+      <div class="grid">
+
+        <div>
+
+          <label for="dest">Destination country</label>
+
+          <select id="dest">
+
+            <option value="EU">European Union (any member state)</option>
+
+            <option value="UK">United Kingdom</option>
+
+            <option value="CA">Canada</option>
+
+            <option value="AU">Australia</option>
+
+            <option value="JP">Japan</option>
+
+            <option value="IN">India</option>
+
+            <option value="MX">Mexico</option>
+
+            <option value="SG">Singapore</option>
+
+            <option value="NZ">New Zealand</option>
+
+            <option value="ZA">South Africa</option>
+
+            <option value="BR">Brazil</option>
+
+            <option value="SA">Saudi Arabia</option>
+
+            <option value="AE">United Arab Emirates</option>
+
+            <option value="QA">Qatar</option>
+
+            <!-- Other (Generic) -->
+
+            <option value="OTHER">Other (Generic)</option>
+
+          </select>
+
+          <div id="policy" class="small" style="margin-top:6px;"></div>
+
+        </div>
+
+        <div>
+
+          <label for="province">Local VAT/GST option</label>
+
+          <select id="province"></select>
+
+          <div class="small" id="provinceHint" style="margin-top:6px;"></div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- SECOND ROW: Replace Incoterm with Job Number -->
+
+      <div class="grid" style="margin-top:10px">
+
+        <div>
+
+          <label for="jobNumber">Job Number</label>
+
+          <input id="jobNumber" type="text" placeholder="e.g., 24-ACME-042" />
+
+          <div class="small">Optional reference for your estimate and printout.</div>
+
+        </div>
+
+        <div>
+
+          <span class="code">USD</span>
+
+          
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Items -->
+
+    <div class="card">
+
+      <h2 style="margin:0 0 8px">Shipment items (USD)</h2>
+
+      <div id="items"></div>
+
+      <div class="row">
+
+        <button id="addItemBtn" class="btn secondary">+ Add item</button>
+
+        <button id="calcBtn" class="btn">Calculate (USD)</button>
+
+        <button id="printBtn" class="btn secondary">Print / Save (PDF)</button>
+
+      </div>
+
+      <div class="small" style="margin-top:8px">
+
+        Categories/materials reflect common promo & printed items (apparel, drinkware, tech, hats, golf, food gifts, awards, notebooks, flyers, cards, marketing print). For precision use full HS tariff lines and local thresholds.
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Results -->
+
+    <div class="card" id="resultsCard">
+
+      <h2 style="margin:0 0 6px">Estimate (USD)</h2>
+
+      <div id="kycWarn" class="warn small" style="margin-bottom:8px;"></div>
+
+      <div id="resultNote" class="small"></div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+
+            <th>Origin</th>
+
+            <th>Category</th>
+
+            <th>Material</th>
+
+            <th>HS code (representative)</th>
+
+            <th>Item value</th>
+
+            <th>Duty</th>
+
+            <th>VAT/GST</th>
+
+            <th>Item total taxes</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="resultBody"></tbody>
+
+        <tfoot>
+
+          <tr><th colspan="8">Shipment total taxes (USD)</th><th id="grandTotal">—</th></tr>
+
+        </tfoot>
+
+      </table>
+
+      <!-- Rules block now given an id so we can omit on print -->
+
+      <div id="rulesBlock" class="small" style="margin-top:8px">
+
+        <strong>Rules applied (high-level):</strong> EU VAT on all imports; duty generally above €150. UK VAT 20%; £135 threshold affects VAT collection. Canada GST/HST; mail ≤ CAD $20 may be exempt; **CUSMA** may reduce duty for US/MX origin. Australia GST 10%. Japan consumption tax 10%. India **IGST** at import (typical 18%). Mexico **~19% flat tax ≤ US$2,500** for courier; otherwise IVA 16% + duty. Singapore GST 9% (OVR). New Zealand GST 15% (OSR). South Africa VAT 15%; apparel duties often higher. “Other (Generic)” uses Duty ~5% and optional VAT 0%/10% (defaults to 10%).
+
+        <br/><br/>
+
+        <em>KYC / recipient‑ID notes:</em> India KYC docs (consignee ID/address); Mexico RFC/CURP; Brazil CPF/CNPJ; KSA National ID/Iqama for personal/B2C; UAE trade license/customs registration (TRN on docs); Qatar QID with online authorization.
+
+      </div>
+
+    </div>
+
+
+
+    <footer class="small">
+
+      Estimates only. Actuals depend on HS classification, origin rules, valuation method, FX, and customs decisions.
+
+    </footer>
+
+  </div>
+
+
+
+<script>
+
+/* -------- Destinations & VAT/GST -------- */
+
+const DEST = {
+
+  EU: { vatRateDefault: 0.21, deMinimisDutyLocal: 150,
+
+    provinces:[{code:"EU-Standard",name:"Typical VAT (19–25%)",rate:0.21},{code:"DE",name:"Germany (19%)",rate:0.19},{code:"FR",name:"France (20%)",rate:0.20},{code:"ES",name:"Spain (21%)",rate:0.21},{code:"IT",name:"Italy (22%)",rate:0.22},{code:"HU",name:"Hungary (27%)",rate:0.27},{code:"LU",name:"Luxembourg (17%)",rate:0.17}],
+
+    policyText:"EU VAT applies to all imports; duty generally starts above €150."
+
+  },
+
+  UK: { vatRateDefault: 0.20, deMinimisDutyLocal: 135, provinces:[{code:"UK",name:"United Kingdom (VAT 20%)",rate:0.20}],
+
+    policyText:"UK VAT 20%; £135 threshold affects VAT collection; duty may apply above £135."
+
+  },
+
+  CA: { vatRateDefault: 0.05, deMinimisMailLocal: 20,
+
+    provinces:[{code:"AB",name:"Alberta (GST 5%)",rate:0.05},{code:"ON",name:"Ontario (HST 13%)",rate:0.13},{code:"NB",name:"New Brunswick (HST 15%)",rate:0.15},{code:"NS",name:"Nova Scotia (HST 15%)",rate:0.15},{code:"PE",name:"Prince Edward Island (HST 15%)",rate:0.15},{code:"NL",name:"Newfoundland & Labrador (HST 15%)",rate:0.15},{code:"BC",name:"British Columbia (GST 5% + PST not modeled)",rate:0.05},{code:"QC",name:"Quebec (GST 5% + QST not modeled)",rate:0.05}],
+
+    policyText:"Canada applies GST/HST; mail ≤ CAD $20 may be tax‑exempt; CUSMA may reduce duty for US/MX origin."
+
+  },
+
+  AU: { vatRateDefault: 0.10, provinces:[{code:"AU",name:"Australia (GST 10%)",rate:0.10}], policyText:"Australia GST 10%; duty varies by HS; threshold ~ AUD 1,000." },
+
+  JP: { vatRateDefault: 0.10, provinces:[{code:"JP",name:"Japan (Consumption tax 10%)",rate:0.10}], policyText:"Japan consumption tax 10%; duty varies by HS." },
+
+  IN: { vatRateDefault: 0.18, provinces:[{code:"IN",name:"India (IGST ~18% typical)",rate:0.18}], policyText:"India collects IGST at import in addition to customs duties." },
+
+  MX: { vatRateDefault: 0.16, provinces:[{code:"MX",name:"Mexico (IVA 16%)",rate:0.16}], policyText:"Mexico IVA 16%; ≤ US$2,500 courier may use ~19% flat tax." },
+
+  SG: { vatRateDefault: 0.09, provinces:[{code:"SG",name:"Singapore (GST 9%)",rate:0.09}], policyText:"Singapore GST 9%; OVR applies to ≤ S$400 air/post for registered sellers." },
+
+  NZ: { vatRateDefault: 0.15, provinces:[{code:"NZ",name:"New Zealand (GST 15%)",rate:0.15}], policyText:"New Zealand GST 15%; OSR ≤ NZ$1,000; border GST/duty above." },
+
+  ZA: { vatRateDefault: 0.15, provinces:[{code:"ZA",name:"South Africa (VAT 15%)",rate:0.15}], policyText:"South Africa VAT 15%; apparel duties high; tightened for low‑value imports." },
+
+  BR: { label:"Brazil", vatRateDefault: 0.00,
+
+    provinces:[{ code:"BR", name:"Brazil (taxes vary by state; estimator shows duty only)", rate:0.00 }],
+
+    policyText:"Brazil duties vary by HS and state taxes. Recipient CPF/CNPJ is mandatory (see KYC banner)."
+
+  },
+
+  SA: { label:"Saudi Arabia", vatRateDefault: 0.05,
+
+    provinces:[{ code:"SA", name:"Saudi Arabia (VAT 5%)", rate:0.05 }],
+
+    policyText:"KSA VAT 5% applies; personal/B2C imports may require national ID/Iqama (see KYC banner)."
+
+  },
+
+  AE: { label:"United Arab Emirates", vatRateDefault: 0.05,
+
+    provinces:[{ code:"AE", name:"UAE (VAT 5%)", rate:0.05 }],
+
+    policyText:"UAE importer must hold trade license/customs registration; business TRN often needed (see KYC banner)."
+
+  },
+
+  QA: { label:"Qatar", vatRateDefault: 0.00,
+
+    provinces:[{ code:"QA", name:"Qatar (no VAT; typical 5% duty not modeled here)", rate:0.00 }],
+
+    policyText:"Qatar requires importer licensing; QID-linked authorization used for clearance (see KYC banner)."
+
+  },
+
+  /* Other (Generic) — optional VAT 0% or 10%, Duty ~5% in calc */
+
+  OTHER: {
+
+    label:"Other (Generic)",
+
+    vatRateDefault: 0.00,
+
+    provinces: [
+
+      { code:"OTHER-0",  name:"Generic estimate (VAT 0%)",  rate:0.00 },
+
+      { code:"OTHER-10", name:"Generic estimate (VAT 10%)", rate:0.10 }
+
+    ],
+
+    policyText:"Generic assumptions: Duty ~5%, VAT 0% or 10% (defaults to 10%). Verify local rules for accuracy."
+
+  }
+
+};
+
+/* -------- Origins -------- */
+
+const ORIGINS = [
+
+  {code:"US",name:"United States"}, {code:"CN",name:"China"}, {code:"IN",name:"India"},
+
+  {code:"VN",name:"Vietnam"}, {code:"EU",name:"European Union"}, {code:"UK",name:"United Kingdom"},
+
+  {code:"MX",name:"Mexico"}, {code:"CA",name:"Canada"}, {code:"JP",name:"Japan"},
+
+  {code:"KR",name:"South Korea"}, {code:"TW",name:"Taiwan"}, {code:"OTHER",name:"Other"}
+
+];
+
+/* -------- Materials -------- */
+
+const MATERIALS = [
+
+  {code:"plastic", name:"Plastic"}, {code:"stainless", name:"Stainless steel"},
+
+  {code:"glass", name:"Glass"}, {code:"ceramic", name:"Ceramic"},
+
+  {code:"aluminum", name:"Aluminum"}, {code:"paper", name:"Paper"},
+
+  {code:"cotton", name:"Cotton"}, {code:"polyester", name:"Polyester"},
+
+  {code:"leather", name:"Leather"}, {code:"pu", name:"PU / imitation leather"},
+
+  {code:"wood", name:"Wood"}, {code:"silicone", name:"Silicone"}
+
+];
+
+/* -------- Categories (incl. printed materials) -------- */
+
+const CATEGORIES = [
+
+  {code:"drinkware", name:"Drinkware (bottles, tumblers, mugs)"},
+
+  {code:"apparel", name:"Apparel (T‑shirts/hoodies)"},
+
+  {code:"hats", name:"Hats"},
+
+  {code:"bags", name:"Bags & totes"},
+
+  {code:"writing", name:"Writing instruments (pens/markers)"},
+
+  {code:"tech", name:"Tech accessories (power banks/USB/earbuds)"},
+
+  {code:"awards", name:"Awards & plaques"},
+
+  {code:"foodgift", name:"Food & beverage gifts"},
+
+  {code:"notebooks", name:"Notebooks & journals"},
+
+  {code:"stickers", name:"Stickers & labels"},
+
+  {code:"lanyards", name:"Lanyards"},
+
+  {code:"keychains", name:"Keychains"},
+
+  {code:"blankets", name:"Blankets"},
+
+  {code:"coolers", name:"Coolers"},
+
+  {code:"golf", name:"Golf items"},
+
+  {code:"calendars", name:"Calendars & planners"},
+
+  /* printed materials */
+
+  {code:"flyers", name:"Flyers / leaflets"},
+
+  {code:"cards", name:"Cards (postcards / greeting cards)"},
+
+  {code:"marketing_print", name:"Marketing print (brochures / catalogs)"}
+
+];
+
+/* -------- HS inference by category + material -------- */
+
+function hsByCategoryMaterial(category, material){
+
+  switch(category){
+
+    case "drinkware":
+
+      if (material === "plastic")   return {hs:"HS 3924.10 (Plastic table/kitchenware)", dutyRate:0.065};
+
+      if (material === "stainless") return {hs:"HS 7323.93 (Stainless steel household articles)", dutyRate:0.027};
+
+      if (material === "glass")     return {hs:"HS 7013 (Glassware for table/kitchen)", dutyRate:0.11};
+
+      if (material === "ceramic")   return {hs:"HS 6912 (Ceramic tableware)", dutyRate:0.12};
+
+      if (material === "aluminum")  return {hs:"HS 7615 (Aluminum table/kitchen articles)", dutyRate:0.075};
+
+      if (material === "silicone")  return {hs:"HS 3924.90 (Other plastic household articles)", dutyRate:0.065};
+
+      return {hs:"HS 3924 / 7323 / 7013 / 6912 / 7615 (drinkware)", dutyRate:0.06};
+
+    case "apparel":
+
+      if (material === "cotton")    return {hs:"HS 6109/6110 (Knit cotton T‑shirts/hoodies)", dutyRate:0.12};
+
+      if (material === "polyester") return {hs:"HS 6109/6110 (Knit man‑made fiber apparel)", dutyRate:0.12};
+
+      return {hs:"HS 6109/6110 (Knit apparel)", dutyRate:0.12};
+
+    case "hats":       return {hs:"HS 6505 (Hats)", dutyRate:0.07};
+
+    case "bags":
+
+      if (material === "leather")   return {hs:"HS 4202.21/91 (Leather bags)", dutyRate:0.09};
+
+      if (material === "pu")        return {hs:"HS 4202.92 (Imitation leather/textile bags)", dutyRate:0.09};
+
+      if (material === "polyester" || material === "cotton")
+
+                                 return {hs:"HS 4202.92 (Textile bags/totes)", dutyRate:0.09};
+
+      if (material === "plastic")   return {hs:"HS 4202.12/32 (Plastic bags & cases)", dutyRate:0.09};
+
+      return {hs:"HS 4202 (Bags)", dutyRate:0.09};
+
+    case "writing":    return {hs:"HS 9608 (Ballpoint/markers)", dutyRate:0.03};
+
+    case "tech":       return {hs:"HS 8507.60 (Power banks) / 8523.51 (USB drives) / 8518.30 (Headphones)", dutyRate:0.00};
+
+    case "awards":
+
+      if (material === "wood")      return {hs:"HS 4420 (Wood statuettes/ornaments)", dutyRate:0.03};
+
+      if (material === "glass")     return {hs:"HS 7013 (Glassware - trophies/awards)", dutyRate:0.11};
+
+      if (material === "aluminum" || material === "stainless")
+
+                                 return {hs:"HS 8306 (Ornaments of base metal)", dutyRate:0.03};
+
+      return {hs:"HS 8306 / 4420 / 7013 (Awards)", dutyRate:0.03};
+
+    case "foodgift":   return {hs:"HS 1806 (Chocolate) / 1904 (Popcorn) / 1905 (Cookies)", dutyRate:0.10};
+
+    case "notebooks":  return {hs:"HS 4820 (Notebooks/journals)", dutyRate:0.00};
+
+    case "stickers":   return {hs:"HS 4821 (Labels/stickers)", dutyRate:0.00};
+
+    case "lanyards":   return {hs:"HS 6307 (Other made‑up textile articles)", dutyRate:0.065};
+
+    case "keychains":
+
+      if (material === "plastic")   return {hs:"HS 3926 (Other articles of plastics)", dutyRate:0.065};
+
+      if (material === "wood")      return {hs:"HS 4420 (Wood ornaments)", dutyRate:0.03};
+
+      return {hs:"HS 7326 (Articles of iron/steel) / 8306 (base metal ornaments)", dutyRate:0.03};
+
+    case "blankets":   return {hs:"HS 6301 (Blankets)", dutyRate:0.05};
+
+    case "coolers":
+
+      if (material === "plastic")   return {hs:"HS 3924 (Plastic household articles—coolers)", dutyRate:0.065};
+
+      if (material === "polyester") return {hs:"HS 4202.92 (Insulated cooler bags - textile)", dutyRate:0.09};
+
+      return {hs:"HS 3924 / 4202.92 (Coolers)", dutyRate:0.07};
+
+    case "golf":       return {hs:"HS 9506.32 (Golf balls) / 9506 (other golf articles)", dutyRate:0.04};
+
+    case "calendars":  return {hs:"HS 4820 (Calendars/planners)", dutyRate:0.00};
+
+    /* printed materials */
+
+    case "flyers":         return {hs:"HS 4911 (Other printed matter incl. trade advertising)", dutyRate:0.00};
+
+    case "cards":          return {hs:"HS 4909 (Printed or illustrated postcards; printed cards)", dutyRate:0.00};
+
+    case "marketing_print":return {hs:"HS 4901 (Printed books, brochures, leaflets and similar)", dutyRate:0.00};
+
+    default:               return {hs:"HS unknown", dutyRate:0.05};
+
+  }
+
+}
+
+/* -------- Destination-specific duty overrides -------- */
+
+const DUTY_OVERRIDES = {
+
+  SG: { default: 0.00, apparel: 0.00, lanyards: 0.00, drinkware: 0.00, keychains:0.00, bags:0.00 },
+
+  ZA: { apparel: 0.45, footwear: 0.25 }
+
+};
+
+/* -------- Origin-aware duty adjustment -------- */
+
+function adjustForOrigin(dest, origin, category, dutyRate){
+
+  if (dest === "CA" && (origin === "US" || origin === "MX" || origin === "CA")) {
+
+    return 0.0; // assumes CUSMA qualification; verify ROO in production
+
+  }
+
+  return dutyRate;
+
+}
+
+/* -------- KYC / recipient ID requirements -------- */
+
+function kycMessage(dest){
+
+  switch(dest){
+
+    case "IN":
+
+      return "⚠️ India: Consignee KYC (identity + address proof) is mandatory for courier/postal imports. Have PAN/Aadhaar/Passport + authorization ready to avoid delays. ";
+
+    case "MX":
+
+      return "⚠️ Mexico: Recipient Tax ID (RFC) or personal ID (CURP) must be provided on all import declarations; missing IDs may delay or block clearance. ";
+
+    case "BR":
+
+      return "⚠️ Brazil: Recipient CPF (individual) or CNPJ (company) is required on all inbound packages for customs clearance; missing IDs can cause delays, returns, or destruction. ";
+
+    case "SA":
+
+      return "⚠️ Saudi Arabia: Personal/B2C imports (esp. over ~USD $266) require the consignee’s Saudi national ID/Iqama number; provide at booking to avoid clearance delays. ";
+
+    case "AE":
+
+      return "⚠️ United Arab Emirates: Importers must have a valid trade license/customs registration. Businesses should include VAT/TRN details on documentation; personal IDs may be requested. ";
+
+    case "QA":
+
+      return "⚠️ Qatar: Clearance commonly requires Qatar ID (QID) or valid residence/work permit; online authorization uses a local number linked to QID. ";
+
+    default:
+
+      return "";
+
+  }
+
+}
+
+
+
+/* -------- Build item UI -------- */
+
+const itemsContainer = document.getElementById('items');
+
+const MAX_ITEMS = 5; let itemCount = 0;
+
+function addItemRow(){
+
+  if (itemCount >= MAX_ITEMS) return;
+
+  itemCount++;
+
+  const idx = itemCount;
+
+  const div = document.createElement('div');
+
+  div.className = 'itemCard'; div.id = `item-${idx}`;
+
+  div.innerHTML = `
+
+    <div class="grid">
+
+      <div>
+
+        <label>Item ${idx} value (USD)</label>
+
+        <input type="number" min="0" step="0.01" id="val-${idx}" placeholder="e.g., 100.00" />
+
+      </div>
+
+      <div>
+
+        <label>Item ${idx} category</label>
+
+        <select id="cat-${idx}">
+
+          ${CATEGORIES.map(c=>`<option value="${c.code}">${c.name}</option>`).join('')}
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="grid" style="margin-top:8px">
+
+      <div>
+
+        <label>Item ${idx} material</label>
+
+        <select id="mat-${idx}">
+
+          ${MATERIALS.map(m=>`<option value="${m.code}">${m.name}</option>`).join('')}
+
+        </select>
+
+        <div class="small">Material informs HS (e.g., drinkware: plastic 3924.10; stainless 7323.93; glass 7013; ceramic 6912; aluminum 7615). For printed items, HS is driven by category.</div>
+
+      </div>
+
+      <div>
+
+        <label>Item ${idx} origin (country of manufacture)</label>
+
+        <select id="orig-${idx}">
+
+          ${ORIGINS.map(o=>`<option value="${o.code}">${o.name}</option>`).join('')}
+
+        </select>
+
+        <div class="small">Origin may reduce duty (e.g., CUSMA relief for Canada with US/MX origin, subject to rules of origin docs).</div>
+
+      </div>
+
+    </div>
+
+  `;
+
+  itemsContainer.appendChild(div);
+
+}
+
+document.getElementById('addItemBtn').addEventListener('click', addItemRow);
+
+/* Start with ONE item only (changed from two) */
+
+addItemRow();
+
+
+
+/* -------- Destination UI -------- */
+
+const destEl = document.getElementById('dest');
+
+const provinceEl = document.getElementById('province');
+
+const policyEl = document.getElementById('policy');
+
+const provinceHint = document.getElementById('provinceHint');
+
+const calcBtn = document.getElementById('calcBtn');
+
+const printBtn = document.getElementById('printBtn');
+
+const resultBody = document.getElementById('resultBody');
+
+const grandTotalEl = document.getElementById('grandTotal');
+
+const resultNote = document.getElementById('resultNote');
+
+const kycWarn = document.getElementById('kycWarn');
+
+
+
+function populateProvince(){
+
+  const d = DEST[destEl.value];
+
+  policyEl.textContent = d?.policyText ?? "";
+
+  provinceEl.innerHTML = '';
+
+  (d?.provinces ?? [{code:"STD",name:"Standard VAT/GST",rate:d?.vatRateDefault ?? 0}]).forEach(p=>{
+
+    const o=document.createElement('option');
+
+    o.value=p.code; o.textContent=p.name;
+
+    provinceEl.appendChild(o);
+
+  });
+
+  // Hint for “Other”
+
+  if (destEl.value === "OTHER") {
+
+    provinceHint.textContent = "Default: VAT 10%. You can switch to VAT 0% for neutral estimates.";
+
+    // Default to the VAT 10% option
+
+    const opt = Array.from(provinceEl.options).find(x => x.value === "OTHER-10");
+
+    if (opt) provinceEl.value = "OTHER-10";
+
+  } else {
+
+    provinceHint.textContent = "";
+
+  }
+
+}
+
+destEl.addEventListener('change', populateProvince); populateProvince();
+
+
+
+/* -------- Calculation -------- */
+
+calcBtn.addEventListener('click', ()=>{
+
+  const dest = destEl.value; const conf = DEST[dest] ?? { vatRateDefault: 0.00, provinces:[{code:"STD",name:"Standard",rate:0.00}] };
+
+  const province = conf.provinces.find(p=>p.code===provinceEl.value) ?? {rate:conf.vatRateDefault};
+
+  // KYC warning (if applicable) — visible on screen, omitted in print via CSS
+
+  kycWarn.textContent = kycMessage(dest);
+
+
+
+  // Collect items
+
+  const rows = [];
+
+  for (let i=1;i<=MAX_ITEMS;i++){
+
+    const vEl=document.getElementById(`val-${i}`), cEl=document.getElementById(`cat-${i}`),
+
+          mEl=document.getElementById(`mat-${i}`), oEl=document.getElementById(`orig-${i}`);
+
+    if (!vEl || !cEl || !mEl || !oEl) continue;
+
+    const value=parseFloat(vEl.value ?? 'NaN'), cat=cEl.value ?? '', mat=mEl.value ?? '', orig=oEl.value ?? 'OTHER';
+
+    if (!isNaN(value)&&value>0&&cat&&mat) rows.push({idx:i,value,cat,mat,orig});
+
+  }
+
+  if (rows.length===0){ alert('Please add at least one item with value, category, material, and origin.'); return; }
+
+  resultBody.innerHTML=''; let grand=0;
+
+
+
+  rows.forEach(r=>{
+
+    const {hs, dutyRate:baseRate} = hsByCategoryMaterial(r.cat, r.mat);
+
+    const overrides = DUTY_OVERRIDES[dest] ?? {};
+
+    const overrideRate = (overrides[r.cat] ?? overrides.default);
+
+    let dutyRate = (overrideRate !== undefined) ? overrideRate : baseRate;
+
+    dutyRate = adjustForOrigin(dest, r.orig, r.cat, dutyRate);
+
+    // Base duty
+
+    let dutyUSD = r.value * dutyRate;
+
+
+
+    // De‑minimis / special rules (skip for OTHER)
+
+    if (dest === 'EU') {
+
+      dutyUSD = r.value > (conf.deMinimisDutyLocal ?? 0) ? r.value * dutyRate : 0;
+
+    } else if (dest === 'UK') {
+
+      dutyUSD = r.value > (conf.deMinimisDutyLocal ?? 0) ? r.value * dutyRate : 0;
+
+    } else if (dest === 'CA') {
+
+      dutyUSD = r.value > (conf.deMinimisMailLocal ?? 0) ? r.value * dutyRate : 0;
+
+    } else if (dest === 'MX') {
+
+      if (r.value <= 2500) {
+
+        const flat = r.value * 0.19; // covers duty+IVA+DTA in the simple model
+
+        renderRow(r.idx, r.orig, r.cat, r.mat, hs, r.value, flat, 0, flat);
+
+        grand += flat; return;
+
+      }
+
+    } else if (dest === 'OTHER') {
+
+      // Generic duty model: 5% on item value (no thresholds)
+
+      dutyUSD = r.value * 0.05;
+
+    }
+
+
+
+    // VAT/GST base = value + duty
+
+    const taxableBaseUSD = r.value + dutyUSD;
+
+    let vatUSD = taxableBaseUSD * (province.rate ?? conf.vatRateDefault ?? 0);
+
+    // Canada low-value mail exception (value threshold heuristic)
+
+    if (dest === 'CA' && r.value <= (conf.deMinimisMailLocal ?? 0)) { vatUSD=0; dutyUSD=0; }
+
+    const itemTotal = dutyUSD + vatUSD; grand += itemTotal;
+
+    renderRow(r.idx, r.orig, r.cat, r.mat, hs, r.value, dutyUSD, vatUSD, itemTotal);
+
+  });
+
+
+
+  grandTotalEl.textContent = formatUSD(grand);
+
+  // Keep result note on screen (already hidden on print by CSS)
+
+  const otherNote = (dest === "OTHER")
+
+    ? " Estimates for “Other (Generic)” use Duty ~5% and your selected VAT (default 10%). Verify local tariff and tax rules for precise results."
+
+    : "";
+
+  resultNote.textContent = `DDP assumption. HS codes are representative; material improves HS inference (especially drinkware, bags, awards, keychains, apparel, and printed items). For accuracy, use full HS tariff lines, FX thresholds, and rules of origin documentation.${otherNote}`;
+
+});
+
+
+
+/* -------- Print / Save (PDF) -------- */
+
+printBtn.addEventListener('click', ()=>{ window.print(); });
+
+
+
+/* -------- Helpers -------- */
+
+function renderRow(idx, origin, cat, mat, hs, val, duty, vat, total){
+
+  const tr=document.createElement('tr');
+
+  tr.innerHTML = `
+
+    <td>${idx}</td>
+
+    <td>${origin}</td>
+
+    <td>${titleCase(cat)}</td>
+
+    <td>${titleCase(mat)}</td>
+
+    <td><span class="code">${hs}</span></td>
+
+    <td>${formatUSD(val)}</td>
+
+    <td>${formatUSD(duty)}</td>
+
+    <td>${formatUSD(vat)}</td>
+
+    <td><strong>${formatUSD(total)}</strong></td>
+
+  `;
+
+  resultBody.appendChild(tr);
+
+}
+
+function titleCase(s){ return s.replace(/[_-]/g,' ').replace(/\b\w/g,m=>m.toUpperCase()); }
+
+function formatUSD(n){ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(n); }
+
+</script>
+
+</body>
