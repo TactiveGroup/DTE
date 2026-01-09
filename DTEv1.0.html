@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+  </style>
+</head>
+<body>
+<p class="p1"><br></p>
+<p class="p2">&lt;!doctype html&gt;</p>
+<p class="p2">&lt;html lang="en"&gt;</p>
+<p class="p2">&lt;head&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;title&gt;Duties &amp; Taxes Estimator (USD, DDP, HS by Material)&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width,initial-scale=1" /&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>:root{--bg:#0f172a;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#22c55e;--blue:#2563eb;--warn:#f59e0b;}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b1020,#0f172a);color:#e5e7eb;margin:0}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>header{padding:24px 20px;text-align:center}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>h1{font-size:1.4rem;margin:0 0 6px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.wrap{max-width:1100px;margin:0 auto;padding:0 16px 40px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.card{background:rgba(17,24,39,0.85);border:1px solid #1f2937;border-radius:12px;padding:18px 16px;margin:12px 0}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>label{display:block;font-weight:600;margin:10px 0 6px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #374151;background:#0b1324;color:#e5e7eb}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.btn{background:var(--accent);border:none;color:#052;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.btn.secondary{background:var(--blue);color:#fff}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.btn:disabled{opacity:.6;cursor:not-allowed}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>table{width:100%;border-collapse:collapse;margin-top:12px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>th,td{border-bottom:1px solid #1f2937;padding:8px;text-align:left;vertical-align:top}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.small{font-size:0.85rem}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>footer{padding:18px;text-align:center;color:var(--muted)}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.itemCard{background:#0b1324;border:1px dashed #334155;border-radius:10px;padding:10px;margin-bottom:10px}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.warn{color:var(--warn);font-weight:600}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>/* Helper: hide elements only when printing */</p>
+<p class="p2"><span class="Apple-converted-space">    </span>.print-hide { display: block; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span>@media print{</p>
+<p class="p2"><span class="Apple-converted-space">      </span>header,#resultNote,.row .btn.secondary{display:none}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>body{background:#fff;color:#000}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>.card{border:none;background:#fff}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>table th,table td{border-color:#ddd}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>.wrap{padding:0 8px}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>.small{color:#222}</p>
+<p class="p2"><span class="Apple-converted-space">      </span>/* New: hide KYC banner and rules block in print */</p>
+<p class="p2"><span class="Apple-converted-space">      </span>#kycWarn, #rulesBlock { display: none !important; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p2">&lt;/head&gt;</p>
+<p class="p2">&lt;body&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;h1&gt;Duties &amp; Taxes Estimator (Shipping from the US)&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="small"&gt;Inputs &amp; outputs in &lt;strong&gt;USD&lt;/strong&gt;. Incoterm assumed &lt;strong&gt;DDP&lt;/strong&gt;. Up to &lt;strong&gt;5 items&lt;/strong&gt; per shipment.&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;div class="wrap"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;!-- Destination --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div class="grid"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;label for="dest"&gt;Destination country&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;select id="dest"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="EU"&gt;European Union (any member state)&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="UK"&gt;United Kingdom&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="CA"&gt;Canada&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="AU"&gt;Australia&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="JP"&gt;Japan&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="IN"&gt;India&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="MX"&gt;Mexico&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="SG"&gt;Singapore&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="NZ"&gt;New Zealand&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="ZA"&gt;South Africa&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="BR"&gt;Brazil&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="SA"&gt;Saudi Arabia&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="AE"&gt;United Arab Emirates&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="QA"&gt;Qatar&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;!-- Other (Generic) --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;option value="OTHER"&gt;Other (Generic)&lt;/option&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;div id="policy" class="small" style="margin-top:6px;"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;label for="province"&gt;Local VAT/GST option&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;select id="province"&gt;&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;div class="small" id="provinceHint" style="margin-top:6px;"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;!-- SECOND ROW: Replace Incoterm with Job Number --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div class="grid" style="margin-top:10px"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;label for="jobNumber"&gt;Job Number&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;input id="jobNumber" type="text" placeholder="e.g., 24-ACME-042" /&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;div class="small"&gt;Optional reference for your estimate and printout.&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;span class="code"&gt;USD&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span></p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;!-- Items --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;h2 style="margin:0 0 8px"&gt;Shipment items (USD)&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div id="items"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div class="row"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;button id="addItemBtn" class="btn secondary"&gt;+ Add item&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;button id="calcBtn" class="btn"&gt;Calculate (USD)&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;button id="printBtn" class="btn secondary"&gt;Print / Save (PDF)&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div class="small" style="margin-top:8px"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>Categories/materials reflect common promo &amp; printed items (apparel, drinkware, tech, hats, golf, food gifts, awards, notebooks, flyers, cards, marketing print). For precision use full HS tariff lines and local thresholds.</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;!-- Results --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="card" id="resultsCard"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;h2 style="margin:0 0 6px"&gt;Estimate (USD)&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div id="kycWarn" class="warn small" style="margin-bottom:8px;"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div id="resultNote" class="small"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;table&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;thead&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;tr&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;#&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Origin&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Category&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Material&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;HS code (representative)&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Item value&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Duty&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;VAT/GST&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span>&lt;th&gt;Item total taxes&lt;/th&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;/tr&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/thead&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;tbody id="resultBody"&gt;&lt;/tbody&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;tfoot&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>&lt;tr&gt;&lt;th colspan="8"&gt;Shipment total taxes (USD)&lt;/th&gt;&lt;th id="grandTotal"&gt;—&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/tfoot&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/table&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;!-- Rules block now given an id so we can omit on print --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div id="rulesBlock" class="small" style="margin-top:8px"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;strong&gt;Rules applied (high-level):&lt;/strong&gt; EU VAT on all imports; duty generally above €150. UK VAT 20%; £135 threshold affects VAT collection. Canada GST/HST; mail ≤ CAD $20 may be exempt; **CUSMA** may reduce duty for US/MX origin. Australia GST 10%. Japan consumption tax 10%. India **IGST** at import (typical 18%). Mexico **~19% flat tax ≤ US$2,500** for courier; otherwise IVA 16% + duty. Singapore GST 9% (OVR). New Zealand GST 15% (OSR). South Africa VAT 15%; apparel duties often higher. “Other (Generic)” uses Duty ~5% and optional VAT 0%/10% (defaults to 10%).</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;br/&gt;&lt;br/&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;em&gt;KYC / recipient‑ID notes:&lt;/em&gt; India KYC docs (consignee ID/address); Mexico RFC/CURP; Brazil CPF/CNPJ; KSA National ID/Iqama for personal/B2C; UAE trade license/customs registration (TRN on docs); Qatar QID with online authorization.</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;footer class="small"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>Estimates only. Actuals depend on HS classification, origin rules, valuation method, FX, and customs decisions.</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><br></p>
+<p class="p2">&lt;script&gt;</p>
+<p class="p2">/* -------- Destinations &amp; VAT/GST -------- */</p>
+<p class="p2">const DEST = {</p>
+<p class="p2"><span class="Apple-converted-space">  </span>EU: { vatRateDefault: 0.21, deMinimisDutyLocal: 150,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{code:"EU-Standard",name:"Typical VAT (19–25%)",rate:0.21},{code:"DE",name:"Germany (19%)",rate:0.19},{code:"FR",name:"France (20%)",rate:0.20},{code:"ES",name:"Spain (21%)",rate:0.21},{code:"IT",name:"Italy (22%)",rate:0.22},{code:"HU",name:"Hungary (27%)",rate:0.27},{code:"LU",name:"Luxembourg (17%)",rate:0.17}],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"EU VAT applies to all imports; duty generally starts above €150."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>UK: { vatRateDefault: 0.20, deMinimisDutyLocal: 135, provinces:[{code:"UK",name:"United Kingdom (VAT 20%)",rate:0.20}],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"UK VAT 20%; £135 threshold affects VAT collection; duty may apply above £135."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>CA: { vatRateDefault: 0.05, deMinimisMailLocal: 20,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{code:"AB",name:"Alberta (GST 5%)",rate:0.05},{code:"ON",name:"Ontario (HST 13%)",rate:0.13},{code:"NB",name:"New Brunswick (HST 15%)",rate:0.15},{code:"NS",name:"Nova Scotia (HST 15%)",rate:0.15},{code:"PE",name:"Prince Edward Island (HST 15%)",rate:0.15},{code:"NL",name:"Newfoundland &amp; Labrador (HST 15%)",rate:0.15},{code:"BC",name:"British Columbia (GST 5% + PST not modeled)",rate:0.05},{code:"QC",name:"Quebec (GST 5% + QST not modeled)",rate:0.05}],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"Canada applies GST/HST; mail ≤ CAD $20 may be tax‑exempt; CUSMA may reduce duty for US/MX origin."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>AU: { vatRateDefault: 0.10, provinces:[{code:"AU",name:"Australia (GST 10%)",rate:0.10}], policyText:"Australia GST 10%; duty varies by HS; threshold ~ AUD 1,000." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>JP: { vatRateDefault: 0.10, provinces:[{code:"JP",name:"Japan (Consumption tax 10%)",rate:0.10}], policyText:"Japan consumption tax 10%; duty varies by HS." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>IN: { vatRateDefault: 0.18, provinces:[{code:"IN",name:"India (IGST ~18% typical)",rate:0.18}], policyText:"India collects IGST at import in addition to customs duties." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>MX: { vatRateDefault: 0.16, provinces:[{code:"MX",name:"Mexico (IVA 16%)",rate:0.16}], policyText:"Mexico IVA 16%; ≤ US$2,500 courier may use ~19% flat tax." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>SG: { vatRateDefault: 0.09, provinces:[{code:"SG",name:"Singapore (GST 9%)",rate:0.09}], policyText:"Singapore GST 9%; OVR applies to ≤ S$400 air/post for registered sellers." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>NZ: { vatRateDefault: 0.15, provinces:[{code:"NZ",name:"New Zealand (GST 15%)",rate:0.15}], policyText:"New Zealand GST 15%; OSR ≤ NZ$1,000; border GST/duty above." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>ZA: { vatRateDefault: 0.15, provinces:[{code:"ZA",name:"South Africa (VAT 15%)",rate:0.15}], policyText:"South Africa VAT 15%; apparel duties high; tightened for low‑value imports." },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>BR: { label:"Brazil", vatRateDefault: 0.00,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{ code:"BR", name:"Brazil (taxes vary by state; estimator shows duty only)", rate:0.00 }],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"Brazil duties vary by HS and state taxes. Recipient CPF/CNPJ is mandatory (see KYC banner)."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>SA: { label:"Saudi Arabia", vatRateDefault: 0.05,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{ code:"SA", name:"Saudi Arabia (VAT 5%)", rate:0.05 }],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"KSA VAT 5% applies; personal/B2C imports may require national ID/Iqama (see KYC banner)."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>AE: { label:"United Arab Emirates", vatRateDefault: 0.05,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{ code:"AE", name:"UAE (VAT 5%)", rate:0.05 }],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"UAE importer must hold trade license/customs registration; business TRN often needed (see KYC banner)."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>QA: { label:"Qatar", vatRateDefault: 0.00,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces:[{ code:"QA", name:"Qatar (no VAT; typical 5% duty not modeled here)", rate:0.00 }],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"Qatar requires importer licensing; QID-linked authorization used for clearance (see KYC banner)."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>/* Other (Generic) — optional VAT 0% or 10%, Duty ~5% in calc */</p>
+<p class="p2"><span class="Apple-converted-space">  </span>OTHER: {</p>
+<p class="p2"><span class="Apple-converted-space">    </span>label:"Other (Generic)",</p>
+<p class="p2"><span class="Apple-converted-space">    </span>vatRateDefault: 0.00,</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinces: [</p>
+<p class="p2"><span class="Apple-converted-space">      </span>{ code:"OTHER-0",<span class="Apple-converted-space">  </span>name:"Generic estimate (VAT 0%)",<span class="Apple-converted-space">  </span>rate:0.00 },</p>
+<p class="p2"><span class="Apple-converted-space">      </span>{ code:"OTHER-10", name:"Generic estimate (VAT 10%)", rate:0.10 }</p>
+<p class="p2"><span class="Apple-converted-space">    </span>],</p>
+<p class="p2"><span class="Apple-converted-space">    </span>policyText:"Generic assumptions: Duty ~5%, VAT 0% or 10% (defaults to 10%). Verify local rules for accuracy."</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2">};</p>
+<p class="p2">/* -------- Origins -------- */</p>
+<p class="p2">const ORIGINS = [</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"US",name:"United States"}, {code:"CN",name:"China"}, {code:"IN",name:"India"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"VN",name:"Vietnam"}, {code:"EU",name:"European Union"}, {code:"UK",name:"United Kingdom"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"MX",name:"Mexico"}, {code:"CA",name:"Canada"}, {code:"JP",name:"Japan"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"KR",name:"South Korea"}, {code:"TW",name:"Taiwan"}, {code:"OTHER",name:"Other"}</p>
+<p class="p2">];</p>
+<p class="p2">/* -------- Materials -------- */</p>
+<p class="p2">const MATERIALS = [</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"plastic", name:"Plastic"}, {code:"stainless", name:"Stainless steel"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"glass", name:"Glass"}, {code:"ceramic", name:"Ceramic"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"aluminum", name:"Aluminum"}, {code:"paper", name:"Paper"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"cotton", name:"Cotton"}, {code:"polyester", name:"Polyester"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"leather", name:"Leather"}, {code:"pu", name:"PU / imitation leather"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"wood", name:"Wood"}, {code:"silicone", name:"Silicone"}</p>
+<p class="p2">];</p>
+<p class="p2">/* -------- Categories (incl. printed materials) -------- */</p>
+<p class="p2">const CATEGORIES = [</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"drinkware", name:"Drinkware (bottles, tumblers, mugs)"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"apparel", name:"Apparel (T‑shirts/hoodies)"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"hats", name:"Hats"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"bags", name:"Bags &amp; totes"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"writing", name:"Writing instruments (pens/markers)"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"tech", name:"Tech accessories (power banks/USB/earbuds)"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"awards", name:"Awards &amp; plaques"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"foodgift", name:"Food &amp; beverage gifts"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"notebooks", name:"Notebooks &amp; journals"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"stickers", name:"Stickers &amp; labels"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"lanyards", name:"Lanyards"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"keychains", name:"Keychains"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"blankets", name:"Blankets"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"coolers", name:"Coolers"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"golf", name:"Golf items"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"calendars", name:"Calendars &amp; planners"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>/* printed materials */</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"flyers", name:"Flyers / leaflets"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"cards", name:"Cards (postcards / greeting cards)"},</p>
+<p class="p2"><span class="Apple-converted-space">  </span>{code:"marketing_print", name:"Marketing print (brochures / catalogs)"}</p>
+<p class="p2">];</p>
+<p class="p2">/* -------- HS inference by category + material -------- */</p>
+<p class="p2">function hsByCategoryMaterial(category, material){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>switch(category){</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "drinkware":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "plastic") <span class="Apple-converted-space">  </span>return {hs:"HS 3924.10 (Plastic table/kitchenware)", dutyRate:0.065};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "stainless") return {hs:"HS 7323.93 (Stainless steel household articles)", dutyRate:0.027};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "glass") <span class="Apple-converted-space">    </span>return {hs:"HS 7013 (Glassware for table/kitchen)", dutyRate:0.11};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "ceramic") <span class="Apple-converted-space">  </span>return {hs:"HS 6912 (Ceramic tableware)", dutyRate:0.12};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "aluminum")<span class="Apple-converted-space">  </span>return {hs:"HS 7615 (Aluminum table/kitchen articles)", dutyRate:0.075};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "silicone")<span class="Apple-converted-space">  </span>return {hs:"HS 3924.90 (Other plastic household articles)", dutyRate:0.065};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 3924 / 7323 / 7013 / 6912 / 7615 (drinkware)", dutyRate:0.06};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "apparel":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "cotton")<span class="Apple-converted-space">    </span>return {hs:"HS 6109/6110 (Knit cotton T‑shirts/hoodies)", dutyRate:0.12};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "polyester") return {hs:"HS 6109/6110 (Knit man‑made fiber apparel)", dutyRate:0.12};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 6109/6110 (Knit apparel)", dutyRate:0.12};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "hats": <span class="Apple-converted-space">      </span>return {hs:"HS 6505 (Hats)", dutyRate:0.07};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "bags":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "leather") <span class="Apple-converted-space">  </span>return {hs:"HS 4202.21/91 (Leather bags)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "pu")<span class="Apple-converted-space">        </span>return {hs:"HS 4202.92 (Imitation leather/textile bags)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "polyester" || material === "cotton")</p>
+<p class="p2"><span class="Apple-converted-space">                                 </span>return {hs:"HS 4202.92 (Textile bags/totes)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "plastic") <span class="Apple-converted-space">  </span>return {hs:"HS 4202.12/32 (Plastic bags &amp; cases)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 4202 (Bags)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "writing":<span class="Apple-converted-space">    </span>return {hs:"HS 9608 (Ballpoint/markers)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "tech": <span class="Apple-converted-space">      </span>return {hs:"HS 8507.60 (Power banks) / 8523.51 (USB drives) / 8518.30 (Headphones)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "awards":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "wood")<span class="Apple-converted-space">      </span>return {hs:"HS 4420 (Wood statuettes/ornaments)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "glass") <span class="Apple-converted-space">    </span>return {hs:"HS 7013 (Glassware - trophies/awards)", dutyRate:0.11};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "aluminum" || material === "stainless")</p>
+<p class="p2"><span class="Apple-converted-space">                                 </span>return {hs:"HS 8306 (Ornaments of base metal)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 8306 / 4420 / 7013 (Awards)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "foodgift": <span class="Apple-converted-space">  </span>return {hs:"HS 1806 (Chocolate) / 1904 (Popcorn) / 1905 (Cookies)", dutyRate:0.10};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "notebooks":<span class="Apple-converted-space">  </span>return {hs:"HS 4820 (Notebooks/journals)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "stickers": <span class="Apple-converted-space">  </span>return {hs:"HS 4821 (Labels/stickers)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "lanyards": <span class="Apple-converted-space">  </span>return {hs:"HS 6307 (Other made‑up textile articles)", dutyRate:0.065};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "keychains":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "plastic") <span class="Apple-converted-space">  </span>return {hs:"HS 3926 (Other articles of plastics)", dutyRate:0.065};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "wood")<span class="Apple-converted-space">      </span>return {hs:"HS 4420 (Wood ornaments)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 7326 (Articles of iron/steel) / 8306 (base metal ornaments)", dutyRate:0.03};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "blankets": <span class="Apple-converted-space">  </span>return {hs:"HS 6301 (Blankets)", dutyRate:0.05};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "coolers":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "plastic") <span class="Apple-converted-space">  </span>return {hs:"HS 3924 (Plastic household articles—coolers)", dutyRate:0.065};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (material === "polyester") return {hs:"HS 4202.92 (Insulated cooler bags - textile)", dutyRate:0.09};</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return {hs:"HS 3924 / 4202.92 (Coolers)", dutyRate:0.07};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "golf": <span class="Apple-converted-space">      </span>return {hs:"HS 9506.32 (Golf balls) / 9506 (other golf articles)", dutyRate:0.04};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "calendars":<span class="Apple-converted-space">  </span>return {hs:"HS 4820 (Calendars/planners)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>/* printed materials */</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "flyers": <span class="Apple-converted-space">        </span>return {hs:"HS 4911 (Other printed matter incl. trade advertising)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "cards":<span class="Apple-converted-space">          </span>return {hs:"HS 4909 (Printed or illustrated postcards; printed cards)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "marketing_print":return {hs:"HS 4901 (Printed books, brochures, leaflets and similar)", dutyRate:0.00};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>default: <span class="Apple-converted-space">              </span>return {hs:"HS unknown", dutyRate:0.05};</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2">}</p>
+<p class="p2">/* -------- Destination-specific duty overrides -------- */</p>
+<p class="p2">const DUTY_OVERRIDES = {</p>
+<p class="p2"><span class="Apple-converted-space">  </span>SG: { default: 0.00, apparel: 0.00, lanyards: 0.00, drinkware: 0.00, keychains:0.00, bags:0.00 },</p>
+<p class="p2"><span class="Apple-converted-space">  </span>ZA: { apparel: 0.45, footwear: 0.25 }</p>
+<p class="p2">};</p>
+<p class="p2">/* -------- Origin-aware duty adjustment -------- */</p>
+<p class="p2">function adjustForOrigin(dest, origin, category, dutyRate){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>if (dest === "CA" &amp;&amp; (origin === "US" || origin === "MX" || origin === "CA")) {</p>
+<p class="p2"><span class="Apple-converted-space">    </span>return 0.0; // assumes CUSMA qualification; verify ROO in production</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><span class="Apple-converted-space">  </span>return dutyRate;</p>
+<p class="p2">}</p>
+<p class="p2">/* -------- KYC / recipient ID requirements -------- */</p>
+<p class="p2">function kycMessage(dest){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>switch(dest){</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "IN":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ India: Consignee KYC (identity + address proof) is mandatory for courier/postal imports. Have PAN/Aadhaar/Passport + authorization ready to avoid delays. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "MX":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ Mexico: Recipient Tax ID (RFC) or personal ID (CURP) must be provided on all import declarations; missing IDs may delay or block clearance. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "BR":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ Brazil: Recipient CPF (individual) or CNPJ (company) is required on all inbound packages for customs clearance; missing IDs can cause delays, returns, or destruction. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "SA":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ Saudi Arabia: Personal/B2C imports (esp. over ~USD $266) require the consignee’s Saudi national ID/Iqama number; provide at booking to avoid clearance delays. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "AE":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ United Arab Emirates: Importers must have a valid trade license/customs registration. Businesses should include VAT/TRN details on documentation; personal IDs may be requested. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>case "QA":</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "⚠️ Qatar: Clearance commonly requires Qatar ID (QID) or valid residence/work permit; online authorization uses a local number linked to QID. ";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>default:</p>
+<p class="p2"><span class="Apple-converted-space">      </span>return "";</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2">}</p>
+<p class="p1"><br></p>
+<p class="p2">/* -------- Build item UI -------- */</p>
+<p class="p2">const itemsContainer = document.getElementById('items');</p>
+<p class="p2">const MAX_ITEMS = 5; let itemCount = 0;</p>
+<p class="p2">function addItemRow(){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>if (itemCount &gt;= MAX_ITEMS) return;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>itemCount++;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const idx = itemCount;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const div = document.createElement('div');</p>
+<p class="p2"><span class="Apple-converted-space">  </span>div.className = 'itemCard'; div.id = `item-${idx}`;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>div.innerHTML = `</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="grid"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;label&gt;Item ${idx} value (USD)&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;input type="number" min="0" step="0.01" id="val-${idx}" placeholder="e.g., 100.00" /&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;label&gt;Item ${idx} category&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;select id="cat-${idx}"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>${CATEGORIES.map(c=&gt;`&lt;option value="${c.code}"&gt;${c.name}&lt;/option&gt;`).join('')}</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;div class="grid" style="margin-top:8px"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;label&gt;Item ${idx} material&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;select id="mat-${idx}"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>${MATERIALS.map(m=&gt;`&lt;option value="${m.code}"&gt;${m.name}&lt;/option&gt;`).join('')}</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div class="small"&gt;Material informs HS (e.g., drinkware: plastic 3924.10; stainless 7323.93; glass 7013; ceramic 6912; aluminum 7615). For printed items, HS is driven by category.&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;label&gt;Item ${idx} origin (country of manufacture)&lt;/label&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;select id="orig-${idx}"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span>${ORIGINS.map(o=&gt;`&lt;option value="${o.code}"&gt;${o.name}&lt;/option&gt;`).join('')}</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span>&lt;div class="small"&gt;Origin may reduce duty (e.g., CUSMA relief for Canada with US/MX origin, subject to rules of origin docs).&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>itemsContainer.appendChild(div);</p>
+<p class="p2">}</p>
+<p class="p2">document.getElementById('addItemBtn').addEventListener('click', addItemRow);</p>
+<p class="p2">/* Start with ONE item only (changed from two) */</p>
+<p class="p2">addItemRow();</p>
+<p class="p1"><br></p>
+<p class="p2">/* -------- Destination UI -------- */</p>
+<p class="p2">const destEl = document.getElementById('dest');</p>
+<p class="p2">const provinceEl = document.getElementById('province');</p>
+<p class="p2">const policyEl = document.getElementById('policy');</p>
+<p class="p2">const provinceHint = document.getElementById('provinceHint');</p>
+<p class="p2">const calcBtn = document.getElementById('calcBtn');</p>
+<p class="p2">const printBtn = document.getElementById('printBtn');</p>
+<p class="p2">const resultBody = document.getElementById('resultBody');</p>
+<p class="p2">const grandTotalEl = document.getElementById('grandTotal');</p>
+<p class="p2">const resultNote = document.getElementById('resultNote');</p>
+<p class="p2">const kycWarn = document.getElementById('kycWarn');</p>
+<p class="p1"><br></p>
+<p class="p2">function populateProvince(){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const d = DEST[destEl.value];</p>
+<p class="p2"><span class="Apple-converted-space">  </span>policyEl.textContent = d?.policyText ?? "";</p>
+<p class="p2"><span class="Apple-converted-space">  </span>provinceEl.innerHTML = '';</p>
+<p class="p2"><span class="Apple-converted-space">  </span>(d?.provinces ?? [{code:"STD",name:"Standard VAT/GST",rate:d?.vatRateDefault ?? 0}]).forEach(p=&gt;{</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const o=document.createElement('option');</p>
+<p class="p2"><span class="Apple-converted-space">    </span>o.value=p.code; o.textContent=p.name;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinceEl.appendChild(o);</p>
+<p class="p2"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><span class="Apple-converted-space">  </span>// Hint for “Other”</p>
+<p class="p2"><span class="Apple-converted-space">  </span>if (destEl.value === "OTHER") {</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinceHint.textContent = "Default: VAT 10%. You can switch to VAT 0% for neutral estimates.";</p>
+<p class="p2"><span class="Apple-converted-space">    </span>// Default to the VAT 10% option</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const opt = Array.from(provinceEl.options).find(x =&gt; x.value === "OTHER-10");</p>
+<p class="p2"><span class="Apple-converted-space">    </span>if (opt) provinceEl.value = "OTHER-10";</p>
+<p class="p2"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p2"><span class="Apple-converted-space">    </span>provinceHint.textContent = "";</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2">}</p>
+<p class="p2">destEl.addEventListener('change', populateProvince); populateProvince();</p>
+<p class="p1"><br></p>
+<p class="p2">/* -------- Calculation -------- */</p>
+<p class="p2">calcBtn.addEventListener('click', ()=&gt;{</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const dest = destEl.value; const conf = DEST[dest] ?? { vatRateDefault: 0.00, provinces:[{code:"STD",name:"Standard",rate:0.00}] };</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const province = conf.provinces.find(p=&gt;p.code===provinceEl.value) ?? {rate:conf.vatRateDefault};</p>
+<p class="p2"><span class="Apple-converted-space">  </span>// KYC warning (if applicable) — visible on screen, omitted in print via CSS</p>
+<p class="p2"><span class="Apple-converted-space">  </span>kycWarn.textContent = kycMessage(dest);</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">  </span>// Collect items</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const rows = [];</p>
+<p class="p2"><span class="Apple-converted-space">  </span>for (let i=1;i&lt;=MAX_ITEMS;i++){</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const vEl=document.getElementById(`val-${i}`), cEl=document.getElementById(`cat-${i}`),</p>
+<p class="p2"><span class="Apple-converted-space">          </span>mEl=document.getElementById(`mat-${i}`), oEl=document.getElementById(`orig-${i}`);</p>
+<p class="p2"><span class="Apple-converted-space">    </span>if (!vEl || !cEl || !mEl || !oEl) continue;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const value=parseFloat(vEl.value ?? 'NaN'), cat=cEl.value ?? '', mat=mEl.value ?? '', orig=oEl.value ?? 'OTHER';</p>
+<p class="p2"><span class="Apple-converted-space">    </span>if (!isNaN(value)&amp;&amp;value&gt;0&amp;&amp;cat&amp;&amp;mat) rows.push({idx:i,value,cat,mat,orig});</p>
+<p class="p2"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><span class="Apple-converted-space">  </span>if (rows.length===0){ alert('Please add at least one item with value, category, material, and origin.'); return; }</p>
+<p class="p2"><span class="Apple-converted-space">  </span>resultBody.innerHTML=''; let grand=0;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">  </span>rows.forEach(r=&gt;{</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const {hs, dutyRate:baseRate} = hsByCategoryMaterial(r.cat, r.mat);</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const overrides = DUTY_OVERRIDES[dest] ?? {};</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const overrideRate = (overrides[r.cat] ?? overrides.default);</p>
+<p class="p2"><span class="Apple-converted-space">    </span>let dutyRate = (overrideRate !== undefined) ? overrideRate : baseRate;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>dutyRate = adjustForOrigin(dest, r.orig, r.cat, dutyRate);</p>
+<p class="p2"><span class="Apple-converted-space">    </span>// Base duty</p>
+<p class="p2"><span class="Apple-converted-space">    </span>let dutyUSD = r.value * dutyRate;</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">    </span>// De‑minimis / special rules (skip for OTHER)</p>
+<p class="p2"><span class="Apple-converted-space">    </span>if (dest === 'EU') {</p>
+<p class="p2"><span class="Apple-converted-space">      </span>dutyUSD = r.value &gt; (conf.deMinimisDutyLocal ?? 0) ? r.value * dutyRate : 0;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>} else if (dest === 'UK') {</p>
+<p class="p2"><span class="Apple-converted-space">      </span>dutyUSD = r.value &gt; (conf.deMinimisDutyLocal ?? 0) ? r.value * dutyRate : 0;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>} else if (dest === 'CA') {</p>
+<p class="p2"><span class="Apple-converted-space">      </span>dutyUSD = r.value &gt; (conf.deMinimisMailLocal ?? 0) ? r.value * dutyRate : 0;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>} else if (dest === 'MX') {</p>
+<p class="p2"><span class="Apple-converted-space">      </span>if (r.value &lt;= 2500) {</p>
+<p class="p2"><span class="Apple-converted-space">        </span>const flat = r.value * 0.19; // covers duty+IVA+DTA in the simple model</p>
+<p class="p2"><span class="Apple-converted-space">        </span>renderRow(r.idx, r.orig, r.cat, r.mat, hs, r.value, flat, 0, flat);</p>
+<p class="p2"><span class="Apple-converted-space">        </span>grand += flat; return;</p>
+<p class="p2"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><span class="Apple-converted-space">    </span>} else if (dest === 'OTHER') {</p>
+<p class="p2"><span class="Apple-converted-space">      </span>// Generic duty model: 5% on item value (no thresholds)</p>
+<p class="p2"><span class="Apple-converted-space">      </span>dutyUSD = r.value * 0.05;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">    </span>// VAT/GST base = value + duty</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const taxableBaseUSD = r.value + dutyUSD;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>let vatUSD = taxableBaseUSD * (province.rate ?? conf.vatRateDefault ?? 0);</p>
+<p class="p2"><span class="Apple-converted-space">    </span>// Canada low-value mail exception (value threshold heuristic)</p>
+<p class="p2"><span class="Apple-converted-space">    </span>if (dest === 'CA' &amp;&amp; r.value &lt;= (conf.deMinimisMailLocal ?? 0)) { vatUSD=0; dutyUSD=0; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span>const itemTotal = dutyUSD + vatUSD; grand += itemTotal;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>renderRow(r.idx, r.orig, r.cat, r.mat, hs, r.value, dutyUSD, vatUSD, itemTotal);</p>
+<p class="p2"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><br></p>
+<p class="p2"><span class="Apple-converted-space">  </span>grandTotalEl.textContent = formatUSD(grand);</p>
+<p class="p2"><span class="Apple-converted-space">  </span>// Keep result note on screen (already hidden on print by CSS)</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const otherNote = (dest === "OTHER")</p>
+<p class="p2"><span class="Apple-converted-space">    </span>? " Estimates for “Other (Generic)” use Duty ~5% and your selected VAT (default 10%). Verify local tariff and tax rules for precise results."</p>
+<p class="p2"><span class="Apple-converted-space">    </span>: "";</p>
+<p class="p2"><span class="Apple-converted-space">  </span>resultNote.textContent = `DDP assumption. HS codes are representative; material improves HS inference (especially drinkware, bags, awards, keychains, apparel, and printed items). For accuracy, use full HS tariff lines, FX thresholds, and rules of origin documentation.${otherNote}`;</p>
+<p class="p2">});</p>
+<p class="p1"><br></p>
+<p class="p2">/* -------- Print / Save (PDF) -------- */</p>
+<p class="p2">printBtn.addEventListener('click', ()=&gt;{ window.print(); });</p>
+<p class="p1"><br></p>
+<p class="p2">/* -------- Helpers -------- */</p>
+<p class="p2">function renderRow(idx, origin, cat, mat, hs, val, duty, vat, total){</p>
+<p class="p2"><span class="Apple-converted-space">  </span>const tr=document.createElement('tr');</p>
+<p class="p2"><span class="Apple-converted-space">  </span>tr.innerHTML = `</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${idx}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${origin}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${titleCase(cat)}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${titleCase(mat)}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;&lt;span class="code"&gt;${hs}&lt;/span&gt;&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${formatUSD(val)}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${formatUSD(duty)}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;${formatUSD(vat)}&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span>&lt;td&gt;&lt;strong&gt;${formatUSD(total)}&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">  </span>resultBody.appendChild(tr);</p>
+<p class="p2">}</p>
+<p class="p2">function titleCase(s){ return s.replace(/[_-]/g,' ').replace(/\b\w/g,m=&gt;m.toUpperCase()); }</p>
+<p class="p2">function formatUSD(n){ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(n); }</p>
+<p class="p2">&lt;/script&gt;</p>
+<p class="p2">&lt;/body&gt;</p>
+</body>
+</html>
